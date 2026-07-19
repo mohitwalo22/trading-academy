@@ -17,7 +17,9 @@ nav {
     display: flex;
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+overflow-x: auto;
+    padding: 10px 15px;
 }
 
 nav a {
