@@ -85,3 +85,24 @@ footer{
 footer p{
     margin:8px;
 }
+.hero{
+    background: linear-gradient(135deg,#0d47a1,#1976d2);
+    color:white;
+    padding:80px 20px;
+    text-align:center;
+}
+
+button:hover{
+    background:#0d8a2a;
+    transform:scale(1.05);
+    transition:0.3s;
+}
+
+.card,.feature-box{
+    transition:0.3s;
+}
+
+.card:hover,.feature-box:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 20px rgba(0,0,0,.2);
+}
