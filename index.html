@@ -240,23 +240,49 @@
     💬
 </a>
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyC7vAXcLBd7f9rbTeo49p_Gf97CGUZ9_3M",
-    authDomain: "trading-academy-39b6c.firebaseapp.com",
-    projectId: "trading-academy-39b6c",
-    storageBucket: "trading-academy-39b6c.firebasestorage.app",
-    messagingSenderId: "722885461662",
-    appId: "1:722885461662:web:69197ea422cfc2d7ed5d8f"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyC7vAXcLBd7f9rbTeo49p_Gf97CGUZ9_3M",
+  authDomain: "trading-academy-39b6c.firebaseapp.com",
+  projectId: "trading-academy-39b6c",
+  storageBucket: "trading-academy-39b6c.firebasestorage.app",
+  messagingSenderId: "722885461662",
+  appId: "1:722885461662:web:69197ea422cfc2d7ed5d8f"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const loginLink = document.querySelector('a[href="login.html"]');
+const signupLink = document.querySelector('a[href="signup.html"]');
+const profileBtn = document.getElementById("profileBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginLink.style.display = "none";
+    signupLink.style.display = "none";
+
+    profileBtn.style.display = "inline-block";
+    profileBtn.innerHTML = "👤 " + user.email + " ▼";
+  } else {
+    loginLink.style.display = "inline-block";
+    signupLink.style.display = "inline-block";
+
+    profileBtn.style.display = "none";
+  }
+});
+
+logoutBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  signOut(auth).then(() => {
+    alert("Logged Out Successfully");
+    location.reload();
+  });
+});
 </script>
 <script>
 const profileBtn = document.getElementById("profileBtn");
