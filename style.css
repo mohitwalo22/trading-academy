@@ -341,3 +341,28 @@ html{
     line-height:1.8;
     font-size:18px;
 }
+
+.testimonials{
+    background:#eaf4ff;
+    padding:50px 20px;
+    text-align:center;
+}
+
+.testimonial-card{
+    background:white;
+    margin:20px auto;
+    max-width:700px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.testimonial-card h3{
+    color:#0d47a1;
+    margin-bottom:10px;
+}
+
+.testimonial-card p{
+    font-size:17px;
+    line-height:1.6;
+}
