@@ -224,3 +224,21 @@ html{
 .feature-box h3{
     color:#0d47a1;
 }
+
+.hero-buttons{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.secondary-btn{
+    background:#ffffff;
+    color:#0d47a1;
+    font-weight:bold;
+}
+
+.secondary-btn:hover{
+    background:#e3f2fd;
+}
