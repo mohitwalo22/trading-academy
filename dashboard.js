@@ -1,5 +1,19 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyC7vAXcLBd7f9rbTeo49p_Gf97CGUZ9_3M",
@@ -10,23 +24,129 @@ const firebaseConfig = {
   appId: "1:722885461662:web:69197ea422cfc2d7ed5d8f"
 };
 
+
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 
-const userEmail = document.getElementById("userEmail");
-const logoutBtn = document.getElementById("logoutBtn");
+const db = getFirestore(app);
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    userEmail.innerHTML = "📧 " + user.email;
-  } else {
-    window.location.href = "login.html";
+
+const userEmail =
+document.getElementById("userEmail");
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+const myCourses =
+document.getElementById("myCourses");
+
+
+onAuthStateChanged(auth, async (user) => {
+
+  if (!user) {
+
+    window.location.href =
+    "login.html";
+
+    return;
   }
+
+
+  userEmail.innerHTML =
+  "📧 " + user.email;
+
+
+  loadMyCourses(user.uid);
+
 });
 
+
+async function loadMyCourses(userId) {
+
+  try {
+
+    const coursesQuery =
+    query(
+
+      collection(db, "enrollments"),
+
+      where("userId", "==", userId)
+
+    );
+
+
+    const querySnapshot =
+    await getDocs(coursesQuery);
+
+
+    myCourses.innerHTML = "";
+
+
+    if (querySnapshot.empty) {
+
+      myCourses.innerHTML =
+      "<p>📚 No course purchased yet.</p>";
+
+      return;
+
+    }
+
+
+    querySnapshot.forEach((doc) => {
+
+      const course =
+      doc.data();
+
+
+      const courseCard =
+      document.createElement("div");
+
+
+      courseCard.className =
+      "course-card";
+
+
+      courseCard.innerHTML = `
+
+        <h3>📚 ${course.courseName}</h3>
+
+        <p>${course.description}</p>
+
+        <button>
+        🎓 Start Learning
+        </button>
+
+      `;
+
+
+      myCourses.appendChild(courseCard);
+
+    });
+
+  }
+
+  catch (error) {
+
+    myCourses.innerHTML =
+    "❌ Error loading courses.";
+
+    console.error(error);
+
+  }
+
+}
+
+
 logoutBtn.addEventListener("click", () => {
+
   signOut(auth).then(() => {
+
     alert("Logged Out Successfully");
-    window.location.href = "login.html";
+
+    window.location.href =
+    "login.html";
+
   });
+
 });
