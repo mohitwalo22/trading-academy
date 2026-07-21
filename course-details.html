@@ -18,6 +18,8 @@
 <nav>
 <a href="index.html">Home</a>
 <a href="courses.html">Courses</a>
+<a href="market.html">Market</a>
+<a href="contact.html">Contact</a>
 <a href="dashboard.html">Dashboard</a>
 </nav>
 
@@ -37,11 +39,18 @@ Price: Loading...
 💳 Buy Now
 </button>
 
+<p id="buyMessage"></p>
+
 </section>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 import {
   getFirestore,
@@ -69,6 +78,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+const auth = getAuth(app);
+
 const db = getFirestore(app);
 
 
@@ -88,25 +99,28 @@ const courseSnap =
 await getDoc(courseRef);
 
 
+let currentCourse = null;
+
+
 if (courseSnap.exists()) {
 
-  const course =
+  currentCourse =
   courseSnap.data();
 
 
   document.getElementById("courseName")
   .innerText =
-  course.name;
+  currentCourse.name;
 
 
   document.getElementById("courseDescription")
   .innerText =
-  course.description;
+  currentCourse.description;
 
 
   document.getElementById("coursePrice")
   .innerText =
-  "💰 Price: ₹" + course.price;
+  "💰 Price: ₹" + currentCourse.price;
 
 }
 
@@ -117,6 +131,36 @@ else {
   "Course Not Found";
 
 }
+
+
+const buyBtn =
+document.getElementById("buyBtn");
+
+
+buyBtn.addEventListener("click", () => {
+
+  onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+
+      document.getElementById("buyMessage")
+      .innerText =
+      "✅ You are logged in. Payment system will be added next.";
+
+    }
+
+    else {
+
+      alert("Please Login First!");
+
+      window.location.href =
+      "login.html";
+
+    }
+
+  });
+
+});
 
 
 </script>
