@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Courses</title>
+
+<title>Courses - MOHIT CAPITALS</title>
 
 <link rel="stylesheet" href="style.css">
-
 </head>
+
 <body>
 
 <header>
-<h1>Trading Academy</h1>
+<h1>MOHIT CAPITALS</h1>
 </header>
 
 <nav>
@@ -24,31 +25,99 @@
 
 <section>
 
-<h2>Our Courses</h2>
+<h2>📚 Our Courses</h2>
 
-<div class="card">
-<h3>Stock Market Basics</h3>
-<p>Learn from Beginner to Advanced.</p>
-<button>Buy Now</button>
-</div>
+<div id="coursesContainer" class="course-grid">
 
-<div class="card">
-<h3>Swing Trading</h3>
-<p>Master Swing Trading Strategy.</p>
-<button>Buy Now</button>
-</div>
+<p>Loading courses...</p>
 
-<div class="card">
-<h3>Price Action</h3>
-<p>Professional Price Action Course.</p>
-<button>Buy Now</button>
 </div>
 
 </section>
 
 <footer>
-<p>© 2026 Trading Academy</p>
+
+<p>© 2026 MOHIT CAPITALS</p>
+
 </footer>
+
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyC7vAXcLBd7f9rbTeo49p_Gf97CGUZ9_3M",
+
+  authDomain: "trading-academy-39b6c.firebaseapp.com",
+
+  projectId: "trading-academy-39b6c",
+
+  storageBucket: "trading-academy-39b6c.firebasestorage.app",
+
+  messagingSenderId: "722885461662",
+
+  appId: "1:722885461662:web:69197ea422cfc2d7ed5d8f"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+const coursesContainer =
+document.getElementById("coursesContainer");
+
+
+const querySnapshot =
+await getDocs(collection(db, "courses"));
+
+
+coursesContainer.innerHTML = "";
+
+
+querySnapshot.forEach((doc) => {
+
+
+  const course = doc.data();
+
+
+  const courseCard = document.createElement("div");
+
+
+  courseCard.className = "course-card";
+
+
+  courseCard.innerHTML = `
+
+    <h3>📚 ${course.name}</h3>
+
+    <p>${course.description}</p>
+
+    <h4>💰 Price: ₹${course.price}</h4>
+
+    <button>Buy Now</button>
+
+  `;
+
+
+  coursesContainer.appendChild(courseCard);
+
+
+});
+
+
+</script>
 
 </body>
 </html>
