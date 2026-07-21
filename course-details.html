@@ -43,20 +43,25 @@ Price: Loading...
 
 </section>
 
+
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 
 import {
   getAuth,
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 import {
   getFirestore,
   doc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+  getDoc,
+  setDoc
+}
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -139,26 +144,90 @@ document.getElementById("buyBtn");
 
 buyBtn.addEventListener("click", () => {
 
-  onAuthStateChanged(auth, (user) => {
 
-    if (user) {
+  onAuthStateChanged(auth, async (user) => {
 
-      document.getElementById("buyMessage")
-      .innerText =
-      "✅ You are logged in. Payment system will be added next.";
 
-    }
-
-    else {
+    if (!user) {
 
       alert("Please Login First!");
 
       window.location.href =
       "login.html";
 
+      return;
+
     }
 
-  });
+
+    if (!currentCourse) {
+
+      alert("Course data not found!");
+
+      return;
+
+    }
+
+
+    try {
+
+
+      const enrollmentId =
+      user.uid + "_" + courseId;
+
+
+      await setDoc(
+
+        doc(db, "enrollments", enrollmentId),
+
+        {
+
+          userId: user.uid,
+
+          userEmail: user.email,
+
+          courseId: courseId,
+
+          courseName: currentCourse.name,
+
+          price: currentCourse.price,
+
+          enrolledAt: new Date()
+
+        }
+
+      );
+
+
+      document.getElementById("buyMessage")
+      .innerText =
+      "✅ Course enrolled successfully!";
+
+
+      buyBtn.innerText =
+      "✅ Enrolled";
+
+
+      buyBtn.disabled =
+      true;
+
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+
+      document.getElementById("buyMessage")
+      .innerText =
+      "❌ Error: " + error.message;
+
+    }
+
+
+  }, { once: true });
+
 
 });
 
