@@ -88,42 +88,41 @@ coursesContainer.innerHTML = "";
 
 querySnapshot.forEach((doc) => {
 
-
   const course = doc.data();
 
-
   const courseCard = document.createElement("div");
-
 
   courseCard.className = "course-card";
 
 
   courseCard.innerHTML = `
 
-  <h3>📚 ${course.name}</h3>
+    <h3>📚 ${course.name}</h3>
 
-  <p>${course.description}</p>
+    <p>${course.description}</p>
 
-  <h4>💰 Price: ₹${course.price}</h4>
+    <h4>💰 Price: ₹${course.price}</h4>
 
-  <button class="view-course-btn">
-    📖 View Details
-  </button>
+    <button class="view-course-btn">
+      📖 View Details
+    </button>
 
-`;
+  `;
 
-const viewCourseBtn =
-courseCard.querySelector(".view-course-btn");
 
-viewCourseBtn.addEventListener("click", () => {
+  const viewCourseBtn =
+  courseCard.querySelector(".view-course-btn");
 
-  window.location.href =
-  "course-details.html?id=" + courseDoc.id;
 
-});
-  
+  viewCourseBtn.addEventListener("click", () => {
+
+    window.location.href =
+    "course-details.html?id=" + doc.id;
+
+  });
+
+
   coursesContainer.appendChild(courseCard);
-
 
 });
 
