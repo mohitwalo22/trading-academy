@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Course Details - MOHIT CAPITALS</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+<h1>📚 MOHIT CAPITALS</h1>
+</header>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="courses.html">Courses</a>
+<a href="dashboard.html">Dashboard</a>
+</nav>
+
+<section class="course-details">
+
+<h2 id="courseName">Loading Course...</h2>
+
+<p id="courseDescription">
+Loading description...
+</p>
+
+<h3 id="coursePrice">
+Price: Loading...
+</h3>
+
+<button id="buyBtn">
+💳 Buy Now
+</button>
+
+</section>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyC7vAXcLBd7f9rbTeo49p_Gf97CGUZ9_3M",
+
+  authDomain: "trading-academy-39b6c.firebaseapp.com",
+
+  projectId: "trading-academy-39b6c",
+
+  storageBucket: "trading-academy-39b6c.firebasestorage.app",
+
+  messagingSenderId: "722885461662",
+
+  appId: "1:722885461662:web:69197ea422cfc2d7ed5d8f"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+const urlParams =
+new URLSearchParams(window.location.search);
+
+
+const courseId =
+urlParams.get("id");
+
+
+const courseRef =
+doc(db, "courses", courseId);
+
+
+const courseSnap =
+await getDoc(courseRef);
+
+
+if (courseSnap.exists()) {
+
+  const course =
+  courseSnap.data();
+
+
+  document.getElementById("courseName")
+  .innerText =
+  course.name;
+
+
+  document.getElementById("courseDescription")
+  .innerText =
+  course.description;
+
+
+  document.getElementById("coursePrice")
+  .innerText =
+  "💰 Price: ₹" + course.price;
+
+}
+
+else {
+
+  document.getElementById("courseName")
+  .innerText =
+  "Course Not Found";
+
+}
+
+
+</script>
+
+</body>
+</html>
