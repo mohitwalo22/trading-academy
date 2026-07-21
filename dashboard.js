@@ -109,16 +109,25 @@ async function loadMyCourses(userId) {
 
       courseCard.innerHTML = `
 
-        <h3>📚 ${course.courseName}</h3>
+  <h3>📚 ${course.courseName}</h3>
 
-        <p>${course.description}</p>
+  <p>${course.description}</p>
 
-        <button>
-        🎓 Start Learning
-        </button>
+  <button class="start-learning-btn">
+  🎓 Start Learning
+  </button>
 
-      `;
+`;
 
+      const startLearningBtn =
+courseCard.querySelector(".start-learning-btn");
+
+startLearningBtn.addEventListener("click", () => {
+
+  window.location.href =
+  "learn-course.html?id=" + course.courseId;
+
+});
 
       myCourses.appendChild(courseCard);
 
