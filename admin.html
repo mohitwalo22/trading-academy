@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel - MOHIT CAPITALS</title>
+
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -19,22 +20,68 @@
 
 <p id="adminEmail">Loading...</p>
 
+<!-- ADD COURSE -->
 <div class="card">
+
 <h3>📚 Add New Course</h3>
-<button>Add Course</button>
+
+<form id="courseForm">
+
+<input
+type="text"
+id="courseName"
+placeholder="Course Name"
+required
+>
+
+<textarea
+id="courseDescription"
+placeholder="Course Description"
+required
+></textarea>
+
+<input
+type="number"
+id="coursePrice"
+placeholder="Course Price"
+required
+>
+
+<button type="submit">
+➕ Add Course
+</button>
+
+</form>
+
+<p id="courseMessage"></p>
+
 </div>
 
+<!-- STUDENTS -->
 <div class="card">
+
 <h3>👥 Registered Students</h3>
-<button>View Students</button>
+
+<button id="viewStudentsBtn">
+View Students
+</button>
+
 </div>
 
+<!-- WEBSITE SETTINGS -->
 <div class="card">
+
 <h3>⚙️ Website Settings</h3>
-<button>Manage Website</button>
+
+<button id="manageWebsiteBtn">
+Manage Website
+</button>
+
 </div>
 
-<button id="logoutBtn">Logout</button>
+<button id="logoutBtn">
+Logout
+</button>
 
 </section>
 
